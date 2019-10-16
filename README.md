@@ -30,3 +30,16 @@ Ruby version `ruby 2.3.7` should be installed on the system. Go to [this link](h
 ```bash
 ruby --version
 ```
+
+## Install
+
+*Note: As this is currently in development, tested system is MacOS `10.14.6`.*
+
+This functionality will install basic requirements for GO. The following are list that will be installed:
+
+* Homebrew (for MacOS)
+* GO programming language
+* GO Dep
+* Git
+
+Along the execution, some error may occur when the required program is already installed. So long the error is only about that, no need to worry.
