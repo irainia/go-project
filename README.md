@@ -48,7 +48,7 @@ Along the execution, some error may occur when the required program is already i
 
 This functionality will initiate GO project as specified. Along the execution, this will ask the user about some information. The following are the questions:
 
-1. Repository Location, is the location where the projet will reside and should be similar to the one in repository server. For example it will be stored in `github.com`, then write `github.com` this in the prompt without prefix `http://www.` nor `https://www.` nor suffix `/`. Another example, if the project will reside in a group named `Irainia` inside `github.com`, then write `github.com/Irainia` in the input.
+1. Repository Location, is the location where the projet will reside and should be similar to the one in repository server. For example it will be stored in `github.com`, then write `github.com` this in the prompt without prefix `http://www.` nor `https://www.` nor suffix `/`. Another example, if the project will reside in a group named `irainia` inside `github.com`, then write `github.com/irainia` in the input.
 
 2. Project Name, will be combined with repository location as a directory (in local) for the project. Example, if the repository location (in the server) is `github.com` and the project name is `go-init`, then the combined name will be `github.com/go-init`. And it is highly recommended (according to GO documentation [here](https://golang.org/doc/code.html)) to store the project in that URL.
 
