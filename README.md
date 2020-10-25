@@ -25,7 +25,7 @@ make --version
 
 ### Ruby
 
-Ruby version `ruby 2.3.7` should be installed on the system. Go to [this link](https://www.ruby-lang.org/en/documentation/installation/) and follow the instruction to install it. To check if the installation is success, you can check the version by running the following command:
+*Ruby is only required for [Install](#Install) only.* Ruby version `ruby 2.3.7` should be installed on the system. Go to [this link](https://www.ruby-lang.org/en/documentation/installation/) and follow the instruction to install it. To check if the installation is success, you can check the version by running the following command:
 
 ```bash
 ruby --version
