@@ -1,46 +1,55 @@
 echo "=== INPUT PROJECT INFORMATION ==="
-echo -n "Repository Location: "
-read location
+project_dir="$(cd .. && pwd)"
+echo "Project Directory: ${project_dir}"
 
 echo -n "Project Name: "
-read name
+read project_name
+
+echo -n "Module Path: "
+read module_path
+echo "Module path for this project: ${module_path}/${project_name}"
 
 echo "Project Description: "
-echo -n "  "
+echo -n " "
 read description
 
 
 echo "=== INITIATING PROJECT ==="
-project_dir="$GOPATH/src/$location/$name"
-
-echo "Creating project dir in $project_dir"
-mkdir -p $project_dir
+echo "Creating project dir in ${project_dir}/${project_name}"
+mkdir -p ${project_dir}/${project_name}
 
 echo "Creating Makefile"
-echo "ensure:
-	dep ensure
+echo "coverage_file=coverage.html
+binary_outdir=out
+project_name=${project_name}
+image_tag=latest
 
-test: ensure
+test:
 	go test ./... --cover
 
-test_coverage: ensure
-	go test -coverprofile test_coverage.html ./... && go tool cover -html=test_coverage.html
+coverage:
+	go test -coverprofile \${coverage_file} ./... && go tool cover -html=\${coverage_file}
 
-build: ensure
-	go build -o ./out/$name .
+bin: test
+	go build -o \${binary_outdir}/\${project_name} .
 
-run:
-	./out/$name
+img: bin
+	docker build -t \${project_name}:\${image_tag} .
 
-install: build
-	go install" > "$project_dir/Makefile"
+up: img
+	docker run \${project_name}:\${image_tag}" > "${project_dir}/${project_name}/Makefile"
+
+echo "Creating Dockerfile"
+echo "FROM golang:1.15-alpine
+COPY ./out/${project_name} ./${project_name}
+CMD ./${project_name}" > "${project_dir}/${project_name}/Dockerfile"
 
 echo "Creating README.md"
-echo "# $name
+echo "# ${project_name}
 
 ## Description
 
-$description
+${description}
 
 ## Dependency
 
@@ -60,20 +69,20 @@ example output:
 `echo | go version`
 \`\`\`
 
-### Go Dep
+### Docker
 
-The Dep, for dependency management tool for Go, version \``echo | dep version | grep version | tr ' ' '\n' | grep -v version | grep v`\` should be installed.
-Go to [this link](https://github.com/golang/dep) and follow the instruction to install based on the system.
-To check the installation, we can check its version by running the following command on the terminal:
+Docker engine version \``docker version | grep Version | tr ' ' '\n' | grep -E '[0-9]'`\`
+needs to be installed in the system. Go to [this link](https://docs.docker.com/engine/install)
+and follow the instruction to install. To check the version, run the following command:
+
+```bash
+docker version
+```
+
+example output:
 
 \`\`\`bash
-dep version
-\`\`\`
-
-Example of the output:
-
-\`\`\`bash
-`echo | dep version`
+`echo | docker version`
 \`\`\`
 
 ## How to Test
@@ -87,37 +96,69 @@ make test
 To show a more complete coverage and uncovered lines:
 
 \`\`\`bash
-make test_coverage
+make coverage
 \`\`\`
 
-You can check into \`test_coverage.html\` file in root project directory. This command also will open interactive coverage tool in your browser if you have one.
+You can check into \`coverage.html\` file in root project directory.
+This command also will open interactive coverage tool in your browser if you have one.
 
 ## How to Build
 
-In this project root directory, run the following command:
+### Bin
+
+To build the binary executable, in this project root directory, run the following command:
 
 \`\`\`bash
-make build
+make bin
 \`\`\`
 
-There will be a new directory named \`out\` with an executable file \`$name\` as the result of the built project.
+There will be a new directory named \`out\` with an executable file \`${project_name}\` as the result of the built project.
+
+### Img
+
+To build docker image, in this project root directory, run the following command:
+
+\`\`\`bash
+make img
+\`\`\`
 
 ## How to Run
 
-In order to run this project, after building this project, execute
+### Bin
+
+In order to run this project, after building the binary executable, run
 the following command in this project root directory:
 
 \`\`\`bash
-make run
-\`\`\`" > "$project_dir/README.md"
+./out/${project_name}
+\`\`\`
 
-echo "test_coverage.html
+### Img
+
+In order to run this project, after building the docker image, run the following command:
+
+\`\`\`bash
+make up
+\`\`\`" > "${project_dir}/${project_name}/README.md"
+
+echo "Creating .gitignore"
+echo "coverage.html
 
 out/
-vendor/" > "$project_dir/.gitignore"
+vendor/
+" > "${project_dir}/${project_name}/.gitignore"
 
-cd $project_dir
+cd ${project_dir}/${project_name}
 git init
-dep init
+go mod init ${module_path}/${project_name}
 
-echo "Project $name is initialized in: $project_dir"
+echo "Creating main.go"
+echo "package main
+
+import \"fmt\"
+
+func main() {
+	fmt.Println(\"Hello world!\")
+}" > "${project_dir}/${project_name}/main.go"
+
+echo "Project ${project_name} is initialized in: ${project_dir}"
