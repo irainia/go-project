@@ -33,7 +33,7 @@ coverage:
 bin: test
 	go build -o \${binary_outdir}/\${project_name} .
 
-img: bin
+img:
 	docker build -t \${project_name}:\${image_tag} .
 
 up: img
