@@ -40,9 +40,15 @@ up: img
 	docker run \${project_name}:\${image_tag}" > "${project_dir}/${project_name}/Makefile"
 
 echo "Creating Dockerfile"
-echo "FROM golang:1.15-alpine
-COPY ./out/${project_name} ./${project_name}
-CMD ./${project_name}" > "${project_dir}/${project_name}/Dockerfile"
+echo "FROM golang:1.16-alpine as builder
+COPY . /src
+WORKDIR /src
+RUN go build -o ./out/${project_name} .
+
+FROM alpine:latest
+RUN mkdir /app
+COPY --from=builder /src/out/${project_name} /app
+CMD /app/${project_name}" > "${project_dir}/${project_name}/Dockerfile"
 
 echo "Creating README.md"
 echo "# ${project_name}
