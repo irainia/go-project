@@ -77,13 +77,13 @@ example output:
 
 ### Docker
 
-Docker engine version \``docker version | grep Version | tr ' ' '\n' | grep -E '[0-9]'`\`
+Docker engine version \``docker --version | tr ' ' '\n' | grep -E '[0-9.]+,$' | tr -d ','`\`
 needs to be installed in the system. Go to [this link](https://docs.docker.com/engine/install)
 and follow the instruction to install. To check the version, run the following command:
 
-```bash
+\`\`\`bash
 docker version
-```
+\`\`\`
 
 example output:
 
