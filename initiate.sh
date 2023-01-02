@@ -110,7 +110,7 @@ This command also will open interactive coverage tool in your browser if you hav
 
 ## How to Build
 
-### Bin
+### Building Bin
 
 To build the binary executable, in this project root directory, run the following command:
 
@@ -120,7 +120,7 @@ make bin
 
 There will be a new directory named \`out\` with an executable file \`${project_name}\` as the result of the built project.
 
-### Img
+### Building Img
 
 To build docker image, in this project root directory, run the following command:
 
@@ -130,7 +130,7 @@ make img
 
 ## How to Run
 
-### Bin
+### Running Bin
 
 In order to run this project, after building the binary executable, run
 the following command in this project root directory:
@@ -139,7 +139,7 @@ the following command in this project root directory:
 ./out/${project_name}
 \`\`\`
 
-### Img
+### Running Img
 
 In order to run this project, after building the docker image, run the following command:
 
